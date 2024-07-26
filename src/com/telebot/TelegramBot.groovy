@@ -195,13 +195,15 @@ class TelegramBot {
                 parse_mode: 'Markdown'
         ]
 
-        echo params
+        try {
 
         def response = client.post(
                 path: '',
                 body: params,
-                requestContentType: ContentType.JSON
-        )
+                requestContentType: 'application/json'
+        )} catch (Exception e) {
+            println e
+        }
 
         println response.data
 
