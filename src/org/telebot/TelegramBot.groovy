@@ -172,12 +172,13 @@ class TelegramBot {
     void begin() {
         this.steps[stepIndex].status += 1
         editMessage(renderTemplate())
-        this.stepTimer = 1.1
+        this.stepTimer = new Date().time / 1000
     }
 
     void end() {
         this.steps[stepIndex].status += 1
-        this.steps[stepIndex].duration = (10.2 - stepTimer) / 2
+        def tmp_t = new Date().time / 1000
+        this.steps[stepIndex].duration = (tmp_t - stepTimer) / 2
         editMessage(renderTemplate())
 
         this.stepIndex += 1
@@ -220,7 +221,7 @@ class TelegramBot {
                 parse_mode: 'Markdown'
         ]
 
-        def response = new httpRequest(
+        def response = httpRequest(
                 httpMode: 'POST',
                 url: url,
                 contentType: 'APPLICATION_JSON',
@@ -241,7 +242,7 @@ class TelegramBot {
                 parse_mode: 'Markdown'
         ]
 
-        new httpRequest(
+        httpRequest(
                 httpMode: 'POST',
                 url: url,
                 contentType: 'APPLICATION_JSON',
