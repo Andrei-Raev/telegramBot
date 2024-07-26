@@ -1,8 +1,6 @@
 #!/usr/bin/env groovy
 package com.telebot
 
-import groovyx.net.http.RESTClient
-import static groovyx.net.http.ContentType.JSON
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
@@ -182,39 +180,49 @@ class TelegramBot {
         editMessage(renderTemplate())
     }
 
-    // Отправка сообщения
     private int sendMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/sendMessage"
-        def client = new RESTClient(url)
 
-        def params = [chat_id   : this.chatId,
-                      text      : message,
-                      parse_mode: 'Markdown']
+        def params = new JsonBuilder([
+                chat_id   : this.chatId,
+                text      : message,
+                parse_mode: 'Markdown'
+        ]).toString()
 
-        def response = client.post(path: '',
-                body: new JsonBuilder(params).toString(),
-                requestContentType: JSON)
+        def responseContent = sendPostRequest(url, params)
 
-        println response.data
-
-        def jsonResponse = new JsonSlurper().parseText(response.data.toString())
+        def jsonResponse = new JsonSlurper().parseText(responseContent)
         return jsonResponse.result.message_id
     }
 
     // Редактирование сообщения
     private void editMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/editMessageText"
-        def client = new RESTClient(url)
 
-        def params = [chat_id   : this.chatId,
-                      message_id: this.messageId,
-                      text      : message,
-                      parse_mode: 'Markdown']
+        def params = new JsonBuilder([
+                chat_id   : this.chatId,
+                message_id: this.messageId,
+                text      : message,
+                parse_mode: 'Markdown'
+        ]).toString()
 
-        def response = client.post(path: '',
-                body: new JsonBuilder(params).toString(),
-                requestContentType: JSON)
+        sendPostRequest(url, params)
+    }
 
-        println response.data
+    // Метод отправки POST-запроса
+    private static String sendPostRequest(String urlString, String params) {
+        URL url = new URL(urlString)
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection()
+        connection.setRequestMethod("POST")
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.setDoOutput(true)
+
+        connection.getOutputStream().withWriter("UTF-8") { writer ->
+            writer.write(params)
+        }
+
+        connection.getInputStream().withReader("UTF-8") { reader ->
+            return reader.text
+        }
     }
 }
