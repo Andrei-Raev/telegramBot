@@ -1,4 +1,4 @@
-
+package com.telebot
 
 class Step {
     String name
