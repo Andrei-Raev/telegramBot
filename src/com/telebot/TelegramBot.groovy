@@ -1,8 +1,10 @@
 #!/usr/bin/env groovy
 package com.telebot
 
+import groovyx.net.http.RESTClient
+import static groovyx.net.http.ContentType.JSON
 import groovy.json.JsonBuilder
-import groovy.json.JsonSlurperClassic
+import groovy.json.JsonSlurper
 
 
 class TelegramBot {
@@ -180,33 +182,39 @@ class TelegramBot {
         editMessage(renderTemplate())
     }
 
+    // Отправка сообщения
     private int sendMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/sendMessage"
+        def client = new RESTClient(url)
 
         def params = [chat_id   : this.chatId,
                       text      : message,
                       parse_mode: 'Markdown']
 
-        def response = httpRequest(httpMode: 'POST',
-                url: url,
-                contentType: 'APPLICATION_JSON',
-                requestBody: new JsonBuilder(params).toString())
+        def response = client.post(path: '',
+                body: new JsonBuilder(params).toString(),
+                requestContentType: JSON)
 
-        println response.content
-        def jsonResponse = new JsonSlurperClassic().parseText(response.content)
+        println response.data
+
+        def jsonResponse = new JsonSlurper().parseText(response.data.toString())
         return jsonResponse.result.message_id
     }
 
+    // Редактирование сообщения
     private void editMessage(String message) {
-        def url = "https://api.telegram.org/bot${this.token}/editMessageText"
+        String url = "https://api.telegram.org/bot${this.token}/editMessageText"
+        def client = new RESTClient(url)
+
         def params = [chat_id   : this.chatId,
                       message_id: this.messageId,
                       text      : message,
                       parse_mode: 'Markdown']
 
-        httpRequest(httpMode: 'POST',
-                url: url,
-                contentType: 'APPLICATION_JSON',
-                requestBody: new JsonBuilder(params).toString())
+        def response = client.post(path: '',
+                body: new JsonBuilder(params).toString(),
+                requestContentType: JSON)
+
+        println response.data
     }
 }
