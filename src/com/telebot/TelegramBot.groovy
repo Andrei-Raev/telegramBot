@@ -195,8 +195,8 @@ class TelegramBot {
                 parse_mode: 'Markdown'
         ]
 
-        println new JsonBuilder(params).toString()
-        println url
+        println(new JsonBuilder(params).toString())
+        println(url)
 
         def response = client.post(
                 path: '',
