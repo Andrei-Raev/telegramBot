@@ -1,4 +1,4 @@
-package org.telebot.com.telebot
+#!/usr/bin/env groovy
 
 def call() {
     echo "Telegram Bot"

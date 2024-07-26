@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 package com.telebot
 
 import groovy.json.JsonBuilder
@@ -125,8 +126,8 @@ class TelegramBot {
     }
 
 
-    TelegramBot(int chatId, String token) {
-        this.chatId = chatId
+    TelegramBot(String chatId, String token) {
+        this.chatId = chatId.toInteger()
         this.token = token
     }
 
