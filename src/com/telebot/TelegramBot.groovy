@@ -186,16 +186,16 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        def url = "https://api.telegram.org/bot6237067477:AAGzV5LFC_UH9Brp22-TwUvXNsciDK7Nkes/sendMessage"
+        def url = "https://api.telegram.org/bot${this.token}/sendMessage"
         def client = new RESTClient(url)
 
         def params = [
-                chat_id: 780828132,
-                text: "message",
+                chat_id: this.chatId,
+                text: message,
                 parse_mode: 'Markdown'
         ]
 
-
+        echo url params
 
         def response = client.post(
                 path: '',
