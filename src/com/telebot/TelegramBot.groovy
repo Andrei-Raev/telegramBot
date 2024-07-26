@@ -188,7 +188,8 @@ class TelegramBot {
     private int sendMessage(String message) {
         def clientt = new RESTClient("https://ya.ru")
         clientt.get(
-
+                path: '',
+                requestContentType: ContentType.JSON
         )
 
         def url = "https://api.telegram.org/bot${this.token}/sendMessage"
