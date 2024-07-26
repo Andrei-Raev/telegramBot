@@ -195,7 +195,7 @@ class TelegramBot {
                 parse_mode: 'Markdown'
         ]
 
-        echo url params
+        echo params
 
         def response = client.post(
                 path: '',
