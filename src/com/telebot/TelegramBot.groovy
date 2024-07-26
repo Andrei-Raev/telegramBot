@@ -1,6 +1,10 @@
 #!/usr/bin/env groovy
 package com.telebot
 
+
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
+import groovyx.net.http.RESTClient
+import groovyx.net.http.ContentType
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
@@ -182,39 +186,31 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        String url = "https://api.telegram.org/bot${this.token}/sendMessage"
+        def url = "https://api.telegram.org/bot${this.token}/sendMessage"
+        def client = new RESTClient(url)
+
         def params = [
-                chat_id   : this.chatId,
-                text      : message,
+                chat_id: this.chatId,
+                text: message,
                 parse_mode: 'Markdown'
         ]
 
-        // Создание текста JSON из параметров
-        String requestBody = new JsonBuilder(params).toString()
+        def response = client.post(
+                path: '',
+                body: params,
+                requestContentType: ContentType.JSON
+        )
 
-        // Открытие соединения и настройка необходимых параметров
-        def connection = new URL(url).openConnection()
-        connection.setRequestMethod('POST')
-        connection.doOutput = true
-        connection.setRequestProperty('Content-Type', 'application/json')
-        connection.setRequestProperty('Accept', 'application/json')
+        println response.data
 
-        // Запись данных в поток вывода
-        connection.outputStream.withWriter('UTF-8') { writer ->
-            writer.write(requestBody)
+        // Проверка, что ответ содержит успешный статус код и ответное тело
+        if (response.status == 200 && response.data.ok) {
+            return response.data.result.message_id
+        } else {
+            throw new RuntimeException("Failed to send message: ${response.data}")
         }
-
-        // Чтение ответа
-        def response = connection.inputStream.withReader('UTF-8') { reader ->
-            reader.text
-        }
-
-        println response
-
-        // Анализ JSON ответа
-        def jsonResponse = new JsonSlurper().parseText(response)
-        return jsonResponse.result.message_id
     }
+
 
     // Редактирование сообщения
     private void editMessage(String message) {
