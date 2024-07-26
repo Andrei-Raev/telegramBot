@@ -202,7 +202,7 @@ class TelegramBot {
                 body: params,
                 requestContentType: 'application/json'
         )} catch (Exception e) {
-            println e
+            echo e
         }
 
         println response.data
