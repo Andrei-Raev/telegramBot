@@ -1,4 +1,4 @@
-package org.telebot
+
 
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurperClassic
