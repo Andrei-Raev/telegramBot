@@ -180,50 +180,73 @@ class TelegramBot {
         editMessage(renderTemplate())
     }
 
+    // Отправка сообщения
     private int sendMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/sendMessage"
-
-        def params = new JsonBuilder([
+        def params = [
                 chat_id   : this.chatId,
                 text      : message,
                 parse_mode: 'Markdown'
-        ]).toString()
+        ]
 
-        def responseContent = sendPostRequest(url, params)
+        // Создание текста JSON из параметров
+        String requestBody = new JsonBuilder(params).toString()
 
-        def jsonResponse = new JsonSlurper().parseText(responseContent)
+        // Открытие соединения и настройка необходимых параметров
+        def connection = new URL(url).openConnection()
+        connection.setRequestMethod('POST')
+        connection.doOutput = true
+        connection.setRequestProperty('Content-Type', 'application/json')
+        connection.setRequestProperty('Accept', 'application/json')
+
+        // Запись данных в поток вывода
+        connection.outputStream.withWriter('UTF-8') { writer ->
+            writer.write(requestBody)
+        }
+
+        // Чтение ответа
+        def response = connection.inputStream.withReader('UTF-8') { reader ->
+            reader.text
+        }
+
+        println response
+
+        // Анализ JSON ответа
+        def jsonResponse = new JsonSlurper().parseText(response)
         return jsonResponse.result.message_id
     }
 
     // Редактирование сообщения
     private void editMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/editMessageText"
-
-        def params = new JsonBuilder([
+        def params = [
                 chat_id   : this.chatId,
                 message_id: this.messageId,
                 text      : message,
                 parse_mode: 'Markdown'
-        ]).toString()
+        ]
 
-        sendPostRequest(url, params)
-    }
+        // Создание текста JSON из параметров
+        String requestBody = new JsonBuilder(params).toString()
 
-    // Метод отправки POST-запроса
-    // Метод отправки POST-запроса
-    private static String sendPostRequest(String urlString, String params) {
-        URL url = new URL(urlString)
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection()
-        connection.setRequestMethod("POST")
-        connection.setRequestProperty("Content-Type", "application/json")
-        connection.setDoOutput(true)
+        // Открытие соединения и настройка необходимых параметров
+        def connection = new URL(url).openConnection()
+        connection.setRequestMethod('POST')
+        connection.doOutput = true
+        connection.setRequestProperty('Content-Type', 'application/json')
+        connection.setRequestProperty('Accept', 'application/json')
 
-        try (OutputStream output = connection.getOutputStream(); Writer writer = new OutputStreamWriter(output, "UTF-8")) {
-            writer.write(params)
+        // Запись данных в поток вывода
+        connection.outputStream.withWriter('UTF-8') { writer ->
+            writer.write(requestBody)
         }
 
-        try (InputStream input = connection.getInputStream(); Reader reader = new InputStreamReader(input, "UTF-8")) {
-            return reader.text
+        // Проверка ответа (может пригодиться для отладки)
+        def response = connection.inputStream.withReader('UTF-8') { reader ->
+            reader.text
         }
+
+        println response // Если необязательно, можно убрать
     }
+
 }
