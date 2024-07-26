@@ -130,21 +130,21 @@ class TelegramBot {
         this.commitUrl = "${repoUrl}/commit/${commitName}"
     }
 
-    void updateInfoExtra(){
+    void updateInfoExtra() {
 
-            // Время выполнения сборки
-            this.duration = currentBuild.duration as float
+        // Время выполнения сборки
+        this.duration = currentBuild.duration as float
 
-            // Использование CPU
-            this.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim().toInteger()
+        // Использование CPU
+        this.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim().toInteger()
 
-            // Потребление памяти
-            this.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim().toInteger()
+        // Потребление памяти
+        this.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim().toInteger()
 
-            // Артефакты
-            this.artifactName = 'artifact.jar' // Замените на свое имя артефакта
-            this.artifactUrl = "${env.BUILD_URL}artifact/${artifactName}"
-            this.artifactSize = sh(script: "ls -lh ${artifactName} | awk '{print \$5}'", returnStdout: true).trim()
+        // Артефакты
+        this.artifactName = 'artifact.jar' // Замените на свое имя артефакта
+        this.artifactUrl = "${env.BUILD_URL}artifact/${artifactName}"
+        this.artifactSize = sh(script: "ls -lh ${artifactName} | awk '{print \$5}'", returnStdout: true).trim()
 
     }
 
@@ -215,18 +215,14 @@ class TelegramBot {
     private int sendMessage(String message) {
         String url = "https://api.telegram.org/bot${this.token}/sendMessage"
 
-        def params = [
-                chat_id   : this.chatId,
-                text      : message,
-                parse_mode: 'Markdown'
-        ]
+        def params = [chat_id   : this.chatId,
+                      text      : message,
+                      parse_mode: 'Markdown']
 
-        def response = httpRequest(
-                httpMode: 'POST',
+        def response = httpRequest(httpMode: 'POST',
                 url: url,
                 contentType: 'APPLICATION_JSON',
-                requestBody: new JsonBuilder(params).toString()
-        )
+                requestBody: new JsonBuilder(params).toString())
 
         println response.content
         def jsonResponse = new JsonSlurperClassic().parseText(response.content)
@@ -235,19 +231,14 @@ class TelegramBot {
 
     private void editMessage(String message) {
         def url = "https://api.telegram.org/bot${this.token}/editMessageText"
-        def params = [
-                chat_id   : this.chatId,
-                message_id: this.messageId,
-                text      : message,
-                parse_mode: 'Markdown'
-        ]
+        def params = [chat_id   : this.chatId,
+                      message_id: this.messageId,
+                      text      : message,
+                      parse_mode: 'Markdown']
 
-        httpRequest(
-                httpMode: 'POST',
+        httpRequest(httpMode: 'POST',
                 url: url,
                 contentType: 'APPLICATION_JSON',
-                requestBody: new JsonBuilder(params).toString()
-        )
+                requestBody: new JsonBuilder(params).toString())
     }
-
 }
