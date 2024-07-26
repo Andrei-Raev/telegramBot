@@ -210,6 +210,7 @@ class TelegramBot {
     }
 
     // Метод отправки POST-запроса
+    // Метод отправки POST-запроса
     private static String sendPostRequest(String urlString, String params) {
         URL url = new URL(urlString)
         HttpURLConnection connection = (HttpURLConnection) url.openConnection()
@@ -217,11 +218,11 @@ class TelegramBot {
         connection.setRequestProperty("Content-Type", "application/json")
         connection.setDoOutput(true)
 
-        connection.getOutputStream().withWriter("UTF-8") { writer ->
+        try (OutputStream output = connection.getOutputStream(); Writer writer = new OutputStreamWriter(output, "UTF-8")) {
             writer.write(params)
         }
 
-        connection.getInputStream().withReader("UTF-8") { reader ->
+        try (InputStream input = connection.getInputStream(); Reader reader = new InputStreamReader(input, "UTF-8")) {
             return reader.text
         }
     }
