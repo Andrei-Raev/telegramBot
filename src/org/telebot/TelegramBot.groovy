@@ -148,13 +148,8 @@ class TelegramBot {
 
     }
 
-
-    void setSteps(List<Step> steps) {
-        this.steps = steps
-    }
-
-    void addStep(Step step) {
-        this.steps.add(step)
+    void addStep(String step) {
+        this.steps.add(new Step(name: step))
     }
 
 
