@@ -239,9 +239,10 @@ class TelegramBot {
 }
 
 def call(Map config = [:]) {
+    echo "Telegram Bot"
+    echo env.TELEGRAM_TOKEN
+    
     TelegramBot telegramBot = new TelegramBot(env.TELEGRAM_CHAT_ID, env.TELEGRAM_TOKEN)
 
-    sh "echo Hello ${config.name}. Today is ${config.dayOfWeek}."
-    
-    return telegramBot 
+    return telegramBot
 }
