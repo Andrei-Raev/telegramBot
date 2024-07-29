@@ -96,18 +96,18 @@ class TelegramBot {
         // this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
         // Начало сборки
-        this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
+        // this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
 
         // Автор изменений
-        this.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-        this.authorUrl = sh(script: "git config user.url", returnStdout: true).trim()
+        // this.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
+        // this.authorUrl = sh(script: "git config user.url", returnStdout: true).trim()
 
-        // Ветка
-        this.branchName = env.BRANCH_NAME
+        // // Ветка
+        // this.branchName = env.BRANCH_NAME
 
-        // Инициирующий коммит
-        this.commitName = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
-        this.commitUrl = "${repoUrl}/commit/${commitName}"
+        // // Инициирующий коммит
+        // this.commitName = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+        // this.commitUrl = "${repoUrl}/commit/${commitName}"
     }
 
     void updateInfoExtra() {
