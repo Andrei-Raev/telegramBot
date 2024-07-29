@@ -21,8 +21,8 @@ def call() {
     buildInfo.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
 
     // Автор изменений
-    buildInfo.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-    buildInfo.author = buildInfo.author.take(buildInfo.author.length()-4)
+    String tmpAuthor = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
+    buildInfo.author = tmpAuthor.take(tmpAuthor.length()-4)
     buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
     // Ветка
