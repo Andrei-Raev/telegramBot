@@ -22,7 +22,7 @@ def call() {
 
     // Автор изменений
     buildInfo.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-    buildInfo.authorUrl = sh(script: "git config user.url", returnStdout: true).trim()
+    buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
     // Ветка
     buildInfo.branchName = env.BRANCH_NAME
