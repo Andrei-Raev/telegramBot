@@ -133,11 +133,10 @@ class TelegramBot {
     }
 
 
-    TelegramBot(String chatId, String token, def env, def currentBuild) {
+    TelegramBot(String chatId, String token, def env) {
         this.chatId = chatId.toInteger()
         this.token = token
         this.env = env
-        this.currentBuild = currentBuild
     }
 
     void init() {
