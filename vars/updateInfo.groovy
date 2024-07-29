@@ -25,7 +25,7 @@ def call() {
     buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
     // Ветка
-    buildInfo.branchName = env.BRANCH_NAME
+    buildInfo.branchName = "sdf" //env.BRANCH_NAME
 
     // Инициирующий коммит
     def commitName = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
