@@ -109,21 +109,17 @@ class TelegramBot {
         this.commitUrl = bi.commitUrl
     }
 
-    public void updateInfoExtra() {
+    public void updateInfoExtra(def bi) {
 
-        // Время выполнения сборки
-        this.duration = currentBuild.duration as float
+        this.duration = bi.duration
+ 
+        this.cpuUsage = bi.cpuUsage
 
-        // Использование CPU
-        this.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim().toInteger()
+        this.memoryUsage = bi.memoryUsage
 
-        // Потребление памяти
-        this.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim().toInteger()
-
-        // Артефакты
-        this.artifactName = 'artifact.jar' // Замените на свое имя артефакта
-        this.artifactUrl = "${env.BUILD_URL}artifact/${artifactName}"
-        this.artifactSize = sh(script: "ls -lh ${artifactName} | awk '{print \$5}'", returnStdout: true).trim()
+        this.artifactName = bi.artifactName
+        this.artifactUrl = bi.artifactUrl
+        this.artifactSize = bi.artifactSize
 
     }
 
