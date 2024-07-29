@@ -15,8 +15,8 @@ def call() {
     // Артефакты
     archiveArtifacts artifacts: 'app.tar.gz', fingerprint: true
     buildInfo.artifactName = 'app.tar.gz'
-    buildInfo.artifactUrl = "${env.BUILD_URL}artifact/${artifactName}"
-    buildInfo.artifactSize = sh(script: "ls -lh ${artifactName} | awk '{print \$5}'", returnStdout: true).trim()
+    buildInfo.artifactUrl = "${env.BUILD_URL}artifact/${buildInfo.artifactName}"
+    buildInfo.artifactSize = sh(script: "ls -lh ${buildInfo.artifactName} | awk '{print \$5}'", returnStdout: true).trim()
 
     return buildInfo
 }
