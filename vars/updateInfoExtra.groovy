@@ -7,7 +7,7 @@ def call() {
     buildInfo.duration = currentBuild.duration as float
 
     // Использование CPU
-    buildInfo.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim().toInteger()
+    buildInfo.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim()
 
     // Потребление памяти
     buildInfo.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim().toInteger()

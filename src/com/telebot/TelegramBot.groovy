@@ -36,7 +36,7 @@ class TelegramBot {
 
 📈 **Метрики:**
 - Время выполнения сборки: `%s секунд`
-- Использование CPU: `%s%`
+- Использование CPU: `%.2f%`
 - Потребление памяти: `%s`
 
 📦 **Артефакты:**
@@ -59,7 +59,7 @@ class TelegramBot {
     String commitName = null
     String commitUrl = null
     float duration = 0
-    int cpuUsage = 0
+    float cpuUsage = 0
     int memoryUsage = 0
     String artifactName = null
     String artifactSize = null
