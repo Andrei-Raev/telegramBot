@@ -71,7 +71,7 @@ class TelegramBot {
 
 
     private String renderTemplate() {
-        String tmp = messageTemplate.formatted(this.title, this.projectName, this.buildNumber, this.buildNumber, this.buildUrl,
+        String tmp = messageTemplate.formatted(this.title, this.projectName, this.buildNumber, this.buildNumber, this.z,
                 this.repoName, this.repoUrl, this.buildTimestamp, this.buildStatus, this.steps.collect { it.render() }.join("\n"))
         if (extraInfoReady) {
             tmp += messageTemplateExtra.formatted(this.author, this.authorUrl, this.branchName, this.commitName, this.commitUrl, this.duration.round(2),

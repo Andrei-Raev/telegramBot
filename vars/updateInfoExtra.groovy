@@ -13,7 +13,8 @@ def call() {
     buildInfo.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim() as float
 
     // Артефакты
-    buildInfo.artifactName = 'artifact.jar' // Замените на свое имя артефакта
+    archiveArtifacts artifacts: 'app.tar.gz', fingerprint: true
+    buildInfo.artifactName = 'app.tar.gz'
     buildInfo.artifactUrl = "${env.BUILD_URL}artifact/${artifactName}"
     buildInfo.artifactSize = sh(script: "ls -lh ${artifactName} | awk '{print \$5}'", returnStdout: true).trim()
 
