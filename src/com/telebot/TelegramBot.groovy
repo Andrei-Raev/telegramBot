@@ -15,7 +15,6 @@ class TelegramBot {
     String token
     String url
     RESTClient client
-    def env
 
     String messageTemplate = '''%s
 
@@ -133,10 +132,9 @@ class TelegramBot {
     }
 
 
-    TelegramBot(String chatId, String token, def env) {
+    TelegramBot(String chatId, String token) {
         this.chatId = chatId.toInteger()
         this.token = token
-        this.env = env
     }
 
     void init() {
