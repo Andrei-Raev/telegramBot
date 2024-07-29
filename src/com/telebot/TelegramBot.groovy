@@ -189,15 +189,9 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        def params = [
-                chat_id: this.chatId,
-                text: message,
-                parse_mode: 'Markdown'
-        ]
-
         def response = this.client.post(
                 path: 'sendMessage',
-                body: params,
+                body: [chat_id: this.chatId, text: message, parse_mode: 'Markdown'],
                 requestContentType: 'application/json'
         )
 
@@ -212,21 +206,6 @@ class TelegramBot {
 
     // Редактирование сообщения
     private void editMessage(String message) {
-        def url = "https://api.telegram.org/bot${this.token}/"
-        def client = new RESTClient(url)
-
-        def params = [
-                chat_id: this.chatId,
-                text: message,
-                parse_mode: 'Markdown'
-        ]
-
-        def response = client.post(
-                path: 'sendMessage',
-                body: params,
-                requestContentType: 'application/json'
-        )
-        
         String url = "http://45.9.43.96:8808/bot${this.token}/editMessageText" //"https://api.telegram.org/bot${this.token}/editMessageText"
         def params = [
                 chat_id   : this.chatId,
