@@ -186,7 +186,7 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        def url = "http://45.9.43.96:8808/bot${this.token}/" //"https://api.telegram.org/bot${this.token}/sendMessage"
+        def url = "https://api.telegram.org/bot${this.token}/" //"https://api.telegram.org/bot${this.token}/sendMessage"
         def client = new RESTClient(url)
 
         def params = [
