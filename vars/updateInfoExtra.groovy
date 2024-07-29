@@ -4,7 +4,7 @@ def call() {
     def buildInfo = [:]
 
     // Время выполнения сборки
-    buildInfo.duration = currentBuild.duration as float / 1000
+    buildInfo.duration = (currentBuild.duration as float) / 1000
 
     // Использование CPU
     buildInfo.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim() as float
