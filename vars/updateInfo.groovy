@@ -13,9 +13,9 @@ def call() {
     buildInfo.buildUrl = env.BUILD_URL
 
     // Репозиторий
-    def repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
-    buildInfo.repoUrl = repoUrl.take(repoUrl.length()-4)
-    buildInfo.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
+    def repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim().replaceFirst(/\.git$/, '')
+    buildInfo.repoUrl = repoUrl
+    buildInfo.repoName = repoUrl.tokenize('/').last()
 
     // Начало сборки
     buildInfo.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
