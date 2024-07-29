@@ -22,7 +22,7 @@ def call() {
 
     // Автор изменений
     String tmpAuthor = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-    echo(tmpAuthor)
+    sh(script: "echo ${tmpAuthor}")
     buildInfo.author = tmpAuthor.take(tmpAuthor.length()-4)
     buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
