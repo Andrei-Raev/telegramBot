@@ -189,9 +189,11 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
+        def params = [chat_id: this.chatId, text: message, parse_mode: 'Markdown']
+        
         def response = this.client.post(
                 path: 'sendMessage',
-                body: [chat_id: this.chatId, text: message, parse_mode: 'Markdown'],
+                body: params,
                 requestContentType: 'application/json'
         )
 
