@@ -92,7 +92,7 @@ class TelegramBot {
         this.buildUrl = env.BUILD_URL
 
         // Репозиторий
-        this.repoUrl = scm.userRemoteConfigs[0].url
+        // this.repoUrl = scm.userRemoteConfigs[0].url
         this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
         // Начало сборки
