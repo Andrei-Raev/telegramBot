@@ -14,16 +14,14 @@ def call() {
 
     // Репозиторий
     def repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
-    buildInfo.repoUrl = repoUrl
+    buildInfo.repoUrl = repoUrl.take(repoUrl.length()-4)
     buildInfo.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
     // Начало сборки
     buildInfo.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
 
     // Автор изменений
-    String tmpAuthor = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-    sh(script: "echo ${tmpAuthor}")
-    buildInfo.author = tmpAuthor.take(tmpAuthor.length()-4)
+    buildInfo.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
     buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
     // Ветка
