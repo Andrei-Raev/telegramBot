@@ -25,12 +25,12 @@ def call() {
     buildInfo.authorUrl = "None"// sh(script: "git config user.url", returnStdout: true).trim()
 
     // Ветка
-    buildInfo.branchName = env.BRANCH_NAME
+    buildInfo.branchName = sh(script: "git branch --show-current", returnStdout: true).trim()
 
     // Инициирующий коммит
-    def commitName = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+    def commitName = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
     buildInfo.commitName = commitName
-    buildInfo.commitUrl = "${repoUrl}/commit/${commitName}"
+    buildInfo.commitUrl = "${repoUrl}/commit/${sh(script: "git rev-parse HEAD", returnStdout: true).trim()}"
 
     return buildInfo
 }
