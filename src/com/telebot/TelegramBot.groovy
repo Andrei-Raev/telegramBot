@@ -142,11 +142,11 @@ class TelegramBot {
         this.url = "https://api.telegram.org/bot${this.token}/"
         this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
+        
+        editMessage("asdfdasfdas")
     }
 
     void begin() {
-editMessage("asdfdasfdas")
-
         this.steps[stepIndex].status += 1
         editMessage(renderTemplate())
         this.stepTimer = new Date().time / 1000
