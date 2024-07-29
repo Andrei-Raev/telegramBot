@@ -138,12 +138,11 @@ class TelegramBot {
     }
 
     void init() {
+        updateInfo()
+        
         this.url = "https://api.telegram.org/bot${this.token}/"
         this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
-        editMessage("dasdasd")
-        
-        updateInfo()
     }
 
     void begin() {
