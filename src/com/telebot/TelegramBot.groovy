@@ -13,7 +13,7 @@ class TelegramBot {
     int chatId
     int messageId
     String token
-    String url = "https://api.telegram.org/bot${this.token}/"
+    String url
     RESTClient client
 
     String messageTemplate = '''%s
@@ -138,6 +138,7 @@ class TelegramBot {
     }
 
     void init() {
+        this.url = "https://api.telegram.org/bot${this.token}/"
         this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
         
