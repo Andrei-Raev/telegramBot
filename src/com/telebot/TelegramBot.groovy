@@ -93,7 +93,7 @@ class TelegramBot {
 
         // Репозиторий
         // this.repoUrl = scm.userRemoteConfigs[0].url
-        this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
+        // this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
         // Начало сборки
         this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
