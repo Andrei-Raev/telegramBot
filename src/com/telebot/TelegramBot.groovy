@@ -138,9 +138,9 @@ class TelegramBot {
     }
 
     void init() {
-        this.messageId = sendMessage(renderTemplate())
         this.client = new RESTClient(this.url)
-
+        this.messageId = sendMessage(renderTemplate())
+        
         updateInfo()
     }
 
