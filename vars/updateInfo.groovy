@@ -13,7 +13,7 @@ def call() {
     buildInfo.buildUrl = env.BUILD_URL
 
     // Репозиторий
-    def repoUrl = scm.userRemoteConfigs[0].url
+    def repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
     buildInfo.repoUrl = repoUrl
     buildInfo.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
