@@ -16,7 +16,6 @@ class TelegramBot {
     String url
     RESTClient client
     def env
-    def currentBuild
 
     String messageTemplate = '''%s
 
@@ -82,36 +81,36 @@ class TelegramBot {
         return tmp
     }
 
-    void updateInfo() {
+    public void updateInfo(def bi) {
         // Название проекта
-        this.projectName = env.JOB_NAME
+        this.projectName = bi.projectName
 
         // Номер сборки
-        this.buildNumber = env.BUILD_NUMBER.toInteger()
+        this.buildNumber = bi.buildNumber
 
         // Ссылка на сборку
-        this.buildUrl = env.BUILD_URL
+        this.buildUrl = bi.buildUrl
 
         // Репозиторий
-        // this.repoUrl = scm.userRemoteConfigs[0].url
-        // this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
+        this.repoUrl = bi.repoUrl
+        this.repoName = bi.repoName
 
         // Начало сборки
-        this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
+        this.buildTimestamp = bi.buildTimestamp
 
         // Автор изменений
-        // this.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-        // this.authorUrl = sh(script: "git config user.url", returnStdout: true).trim()
+        this.author = bi.author
+        this.authorUrl = bi.authorUrl
 
-        // // Ветка
-        // this.branchName = env.BRANCH_NAME
+        // Ветка
+        this.branchName = bi.branchName
 
-        // // Инициирующий коммит
-        // this.commitName = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
-        // this.commitUrl = "${repoUrl}/commit/${commitName}"
+        // Инициирующий коммит
+        this.commitName = bi.commitName
+        this.commitUrl = bi.commitUrl
     }
 
-    void updateInfoExtra() {
+    public void updateInfoExtra() {
 
         // Время выполнения сборки
         this.duration = currentBuild.duration as float
@@ -142,8 +141,6 @@ class TelegramBot {
     }
 
     void init() {
-        updateInfo()
-        
         this.url = "https://api.telegram.org/bot${this.token}/"
         this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
