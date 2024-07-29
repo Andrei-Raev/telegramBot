@@ -10,7 +10,7 @@ def call() {
     buildInfo.cpuUsage = sh(script: "mpstat | grep 'all' | awk '{print 100-\$13}'", returnStdout: true).trim() as float
 
     // Потребление памяти
-    buildInfo.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim().toInteger()
+    buildInfo.memoryUsage = sh(script: "free | grep Mem | awk '{print \$3/\$2 * 100.0}'", returnStdout: true).trim() as float
 
     // Артефакты
     buildInfo.artifactName = 'artifact.jar' // Замените на свое имя артефакта
