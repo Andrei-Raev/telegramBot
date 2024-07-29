@@ -141,6 +141,7 @@ class TelegramBot {
         this.url = "https://api.telegram.org/bot${this.token}/"
         this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
+        editMessage("dasdasd")
         
         updateInfo()
     }
@@ -190,7 +191,11 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        def params = [chat_id: this.chatId, text: message, parse_mode: 'Markdown']
+        def params = [
+            chat_id: this.chatId, 
+            text: message, 
+            parse_mode: 'Markdown'
+        ]
         
         def response = this.client.post(
                 path: 'sendMessage',
@@ -198,7 +203,6 @@ class TelegramBot {
                 requestContentType: 'application/json'
         )
 
-        // Проверка, что ответ содержит успешный статус код и ответное тело
         if (response.status == 200 && response.data.ok) {
             return response.data.result.message_id
         } else {
@@ -209,35 +213,23 @@ class TelegramBot {
 
     // Редактирование сообщения
     private void editMessage(String message) {
-        String url = "http://45.9.43.96:8808/bot${this.token}/editMessageText" //"https://api.telegram.org/bot${this.token}/editMessageText"
         def params = [
-                chat_id   : this.chatId,
-                message_id: this.messageId,
-                text      : message,
-                parse_mode: 'Markdown'
+            chat_id: this.chatId,
+            message_id: this.messageId,
+            text: message, 
+            parse_mode: 'Markdown'
         ]
+        
+        def response = this.client.post(
+                path: 'editMessageText',
+                body: params,
+                requestContentType: 'application/json'
+        )
 
-        // Создание текста JSON из параметров
-        String requestBody = new JsonBuilder(params).toString()
-
-        // Открытие соединения и настройка необходимых параметров
-        def connection = new URL(url).openConnection()
-        connection.setRequestMethod('POST')
-        connection.doOutput = true
-        connection.setRequestProperty('Content-Type', 'application/json')
-        connection.setRequestProperty('Accept', 'application/json')
-
-        // Запись данных в поток вывода
-        connection.outputStream.withWriter('UTF-8') { writer ->
-            writer.write(requestBody)
+        if (response.status == 200 && response.data.ok) {
+            return response.data.result.message_id
+        } else {
+            throw new RuntimeException("Failed to send message: ${response.data}")
         }
-
-        // Проверка ответа (может пригодиться для отладки)
-        def response = connection.inputStream.withReader('UTF-8') { reader ->
-            reader.text
-        }
-
-        println response // Если необязательно, можно убрать
     }
-
 }
