@@ -26,6 +26,10 @@ class Step {
         def status = this.renderStatus()
         String duration = this.duration == 0 ? "" : " (${this.duration.round(2)} сек)"
 
-        return "${status[0]} | ${this.name} - ${status[1]}" + duration
+        if (this.status == 1) {
+            return "*${status[0]} | ${this.name} - ${status[1]}" + duration + '*'
+        } else {
+            return "${status[0]} | ${this.name} - ${status[1]}" + duration
+        }
     }
 }
