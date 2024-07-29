@@ -14,7 +14,6 @@ class TelegramBot {
     int messageId
     String token
     String url
-    RESTClient client
 
     String messageTemplate = '''%s
 
@@ -140,10 +139,7 @@ class TelegramBot {
 
     void init() {
         this.url = "https://api.telegram.org/bot${this.token}/"
-        this.client = new RESTClient(this.url)
         this.messageId = sendMessage(renderTemplate())
-        
-        editMessage("asdfdasfdas")
     }
 
     void begin() {
@@ -191,13 +187,15 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
+        def client = new RESTClient(this.url)
+
         def params = [
             chat_id: this.chatId, 
             text: message, 
             parse_mode: 'Markdown'
         ]
         
-        def response = this.client.post(
+        def response = client.post(
                 path: 'sendMessage',
                 body: params,
                 requestContentType: 'application/json'
@@ -213,6 +211,8 @@ class TelegramBot {
 
     // Редактирование сообщения
     private void editMessage(String message) {
+        def client = new RESTClient(this.url)
+
         def params = [
             chat_id: this.chatId,
             message_id: this.messageId,
@@ -220,7 +220,7 @@ class TelegramBot {
             parse_mode: 'Markdown'
         ]
         
-        def response = this.client.post(
+        def response = client.post(
                 path: 'editMessageText',
                 body: params,
                 requestContentType: 'application/json'
