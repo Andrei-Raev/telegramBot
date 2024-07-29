@@ -162,7 +162,6 @@ class TelegramBot {
 
 
         this.extraInfoReady = true
-        updateInfoExtra()
 
         editMessage(renderTemplate())
     }
@@ -176,7 +175,6 @@ class TelegramBot {
 
 
         this.extraInfoReady = true
-        updateInfoExtra()
 
         editMessage(renderTemplate())
     }
