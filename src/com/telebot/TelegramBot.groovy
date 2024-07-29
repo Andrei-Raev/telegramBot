@@ -65,6 +65,7 @@ class TelegramBot {
     String artifactName = null
     String artifactSize = null
     String artifactUrl = null
+    String branchName = null
 
     int stepIndex = 0
     def stepTimer = null
@@ -74,7 +75,7 @@ class TelegramBot {
         String tmp = messageTemplate.formatted(this.title, this.projectName, this.buildNumber, this.buildNumber, this.buildUrl,
                 this.repoName, this.repoUrl, this.buildTimestamp, this.buildStatus, this.steps.collect { it.render() }.join("\n"))
         if (extraInfoReady) {
-            tmp += messageTemplateExtra.formatted(this.author, this.authorUrl, this.commitName, this.commitUrl, this.duration.round(2),
+            tmp += messageTemplateExtra.formatted(this.author, this.authorUrl, this.branchName, this.commitName, this.commitUrl, this.duration.round(2),
                     this.cpuUsage, this.memoryUsage, this.artifactName, this.artifactSize, this.artifactUrl)
         }
         return tmp
