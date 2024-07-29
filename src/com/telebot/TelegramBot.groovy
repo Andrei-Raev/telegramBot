@@ -96,7 +96,7 @@ class TelegramBot {
         // this.repoName = repoUrl.tokenize('/').last().replaceFirst(/\.git$/, '')
 
         // Начало сборки
-        // this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
+        this.buildTimestamp = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd HH:mm:ss")
 
         // Автор изменений
         // this.author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
