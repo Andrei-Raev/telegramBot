@@ -145,6 +145,8 @@ class TelegramBot {
     }
 
     void begin() {
+editMessage("asdfdasfdas")
+
         this.steps[stepIndex].status += 1
         editMessage(renderTemplate())
         this.stepTimer = new Date().time / 1000
