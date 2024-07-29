@@ -186,7 +186,7 @@ class TelegramBot {
 
     // Отправка сообщения
     private int sendMessage(String message) {
-        def url = "http://45.9.43.96:8808/bot${this.token}/sendMessage/" //"https://api.telegram.org/bot${this.token}/sendMessage"
+        def url = "http://45.9.43.96:8808/bot${this.token}/" //"https://api.telegram.org/bot${this.token}/sendMessage"
         def client = new RESTClient(url)
 
         def params = [
@@ -198,7 +198,7 @@ class TelegramBot {
         try {
 
         def response = client.post(
-                path: '',
+                path: 'sendMessage',
                 body: params,
                 requestContentType: 'application/json'
         )} catch (Exception e) {
