@@ -21,6 +21,7 @@ def call() {
     buildInfo.artifactSize = sh(script: "ls -lh ${buildInfo.artifactName} | awk '{print \$5}'", returnStdout: true).trim()}
     else{buildInfo.artifactName = null}
 
+    def repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim().replaceFirst(/\.git$/, '').replaceFirst(/:\/\/[^@]+@/, '://')
     // Инициирующий коммит
     def commitName = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
     buildInfo.commitName = commitName
