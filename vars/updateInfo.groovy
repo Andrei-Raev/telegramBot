@@ -27,10 +27,5 @@ def call() {
     // Ветка
     buildInfo.branchName = sh(script: "git branch --show-current", returnStdout: true).trim()
 
-    // Инициирующий коммит
-    def commitName = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-    buildInfo.commitName = commitName
-    buildInfo.commitUrl = "${repoUrl}/commit/${sh(script: "git rev-parse HEAD", returnStdout: true).trim()}"
-
     return buildInfo
 }

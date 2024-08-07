@@ -104,10 +104,6 @@ class TelegramBot {
 
         // Ветка
         this.branchName = bi.branchName
-
-        // Инициирующий коммит
-        this.commitName = bi.commitName
-        this.commitUrl = bi.commitUrl
     }
 
     public void updateInfoExtra(def bi) {
@@ -122,6 +118,10 @@ class TelegramBot {
         this.artifactName = bi.artifactName
         this.artifactUrl = bi.artifactUrl
         this.artifactSize = bi.artifactSize
+
+        // Инициирующий коммит
+        this.commitName = bi.commitName
+        this.commitUrl = bi.commitUrl
 
     }
 
