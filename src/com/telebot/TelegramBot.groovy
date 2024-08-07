@@ -38,10 +38,11 @@ class TelegramBot {
 - Время выполнения сборки: `%s секунд`
 - Использование CPU: *%.2f%%*
 - Потребление памяти: *%.1f/%.1fMb*
-
-📦 **Артефакты:**
-- Главный артефакт: [%s (%s)](%s)
 '''
+
+    String artifactTemplate = '''
+📦 **Артефакты:**
+- Главный артефакт: [%s (%s)](%s)'''
 
     String title = "🚀 *Начата сборка!*"
     String projectName = null
@@ -76,7 +77,8 @@ class TelegramBot {
                 this.repoName, this.repoUrl, this.buildTimestamp, this.buildStatus, this.steps.collect { it.render() }.join("\n"))
         if (extraInfoReady) {
             tmp += messageTemplateExtra.formatted(this.author, this.authorUrl, this.branchName, this.commitName, this.commitUrl, this.duration.round(2),
-                    this.cpuUsage, this.memoryUsage, this.memoryMax, this.artifactName, this.artifactSize, this.artifactUrl)
+                    this.cpuUsage, this.memoryUsage, this.memoryMax)
+        if(this.artifactName){tmp += artifactTemplate.formatted(this.artifactName, this.artifactSize, this.artifactUrl)}
         }
         return tmp
     }

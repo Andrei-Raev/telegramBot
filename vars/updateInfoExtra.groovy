@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String artifact_name) {
+def call(String? artifact_name) {
     def buildInfo = [:]
 
     // Время выполнения сборки
@@ -14,10 +14,12 @@ def call(String artifact_name) {
     buildInfo.memoryMax = (sh(script: "free | grep Mem | awk '{print \$2}'", returnStdout: true).trim() as float) / 1024
 
     // Артефакты
+    if(artifact_name) {
     archiveArtifacts artifacts: artifact_name, fingerprint: true
     buildInfo.artifactName = artifact_name
     buildInfo.artifactUrl = "${env.BUILD_URL}artifact/${buildInfo.artifactName}"
-    buildInfo.artifactSize = sh(script: "ls -lh ${buildInfo.artifactName} | awk '{print \$5}'", returnStdout: true).trim()
+    buildInfo.artifactSize = sh(script: "ls -lh ${buildInfo.artifactName} | awk '{print \$5}'", returnStdout: true).trim()}
+    else{buildInfo.artifactName = null}
 
     // Инициирующий коммит
     def commitName = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
