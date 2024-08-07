@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String? artifact_name) {
+def call() {
     def buildInfo = [:]
 
     // Время выполнения сборки
@@ -12,7 +12,7 @@ def call(String? artifact_name) {
     // Потребление памяти
     buildInfo.memoryUsage = (sh(script: "free | grep Mem | awk '{print \$3}'", returnStdout: true).trim() as float) / 1024
     buildInfo.memoryMax = (sh(script: "free | grep Mem | awk '{print \$2}'", returnStdout: true).trim() as float) / 1024
-
+    artifact_name = null
     // Артефакты
     if(artifact_name) {
     archiveArtifacts artifacts: artifact_name, fingerprint: true
