@@ -10,7 +10,7 @@ import groovy.json.JsonSlurper
 
 
 class TelegramBot {
-    int chatId
+    BigInteger chatId
     int messageId
     String token
     String url
