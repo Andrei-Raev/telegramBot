@@ -133,7 +133,7 @@ class TelegramBot {
 
 
     TelegramBot(String chatId, String token) {
-        this.chatId = BigInteger(chatId)
+        this.chatId = new BigInteger(chatId)
         this.token = token
     }
 
